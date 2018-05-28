@@ -66,7 +66,7 @@ module.exports = function({url, options, models, debug}) {
 
   // Middleware setup
   return async function(ctx, next) {
-    !connected && await connectionPromise();
+    !connected && await connectionPromise;
     ctx.mongoose = mongoose;
     ctx.models = ctx.mongoose.models;
     await next();
