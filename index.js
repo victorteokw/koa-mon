@@ -26,10 +26,10 @@ module.exports = function({url, options, models, debug}) {
     });
   };
 
-  process
-    //.on('exit', cleanup)
-    .on('SIGINT', cleanup)
-    .on('SIGTERM', cleanup);
+  // process
+  //   .on('exit', cleanup)
+  //   .on('SIGINT', cleanup)
+  //   .on('SIGTERM', cleanup);
 
   mongoose.connection.on('error', () => {
     connected = false;
