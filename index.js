@@ -6,7 +6,7 @@ module.exports = function({url, options, models, debug}) {
   const defaultOptions = {
     autoReconnect: true,
     reconnectTries: Number.MAX_VALUE,
-    reconnectInterval: 200
+    reconnectInterval: 2000
   };
 
   // configure mongoose
@@ -34,11 +34,13 @@ module.exports = function({url, options, models, debug}) {
   mongoose.connection.on('error', () => {
     connected = false;
     console.log(`[koa2-mongoose] error connecting to ${url}.`);
-    if (reconnectTries < (options.reconnectTries || defaultOptions.reconnectTries)) {
-      setTimeout(() => {
-        connectionPromise = connect();
-        reconnectTries += 1;
-      }, options.reconnectInterval || defaultOptions.reconnectInterval);
+    if (options.autoReconnect !== false) {
+      if (reconnectTries < (options.reconnectTries || defaultOptions.reconnectTries)) {
+        setTimeout(() => {
+          connectionPromise = connect();
+          reconnectTries += 1;
+        }, options.reconnectInterval || defaultOptions.reconnectInterval);
+      }
     }
   });
   mongoose.connection.on('disconnected', function () {
@@ -47,13 +49,12 @@ module.exports = function({url, options, models, debug}) {
   });
   mongoose.connection.on('connected', function () {
     connected = true;
+    reconnectTries = 0;
     console.log(`[koa2-mongoose] connection to ${url} connected.`);
   });
 
   const connect = function() {
-    return mongoose.connect(url, options).catch((err) => {
-
-    });
+    return mongoose.connect(url, options).catch((err) => {});
   };
 
   connectionPromise = connect();
