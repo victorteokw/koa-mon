@@ -23,11 +23,11 @@
   "bugs": {
     "url": "https://github.com/zhangkaiyulw/koa2-mongoose/issues"
   },
-  "peerDependencies": {
-    "mongoose": "5.x"
-  },
   "homepage": "https://github.com/zhangkaiyulw/koa2-mongoose#readme",
   "dependencies": {
     "glob": "^7.1.2"
+  },
+  "peerDependencies": {
+    "mongoose": "5.x"
   }
 }
