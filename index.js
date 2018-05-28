@@ -55,7 +55,9 @@ module.exports = function({url, options, models, debug}) {
 
   const connect = function() {
     console.log(`[koa2-mongoose] connecting ${url}.`);
-    return mongoose.connect(url, options).catch((err) => {});
+    const p = mongoose.connect(url, options);
+    p.catch((err) => {});
+    return p;
   };
 
   connectionPromise = connect();
