@@ -27,7 +27,7 @@ module.exports = function({url, options, models, debug}) {
   };
 
   process
-    .on('exit', cleanup)
+    //.on('exit', cleanup)
     .on('SIGINT', cleanup)
     .on('SIGTERM', cleanup);
 
