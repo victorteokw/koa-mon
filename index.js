@@ -57,7 +57,7 @@ module.exports = function({url, options, models, debug}) {
   connectionPromise = connect();
 
   // Load models
-  const modelPaths = glob.sync(modelsDir + '/**/*.js');
+  const modelPaths = glob.sync(models + '/**/*.js');
   modelPaths.map(require);
 
   // Middleware setup
