@@ -1,0 +1,33 @@
+{
+  "name": "koa2-mongoose",
+  "version": "0.1.0",
+  "description": "koa2 mongoose middleware",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangkaiyulw/koa2-mongoose.git"
+  },
+  "keywords": [
+    "koa",
+    "mongoose",
+    "connector",
+    "koa2-mongoose",
+    "koa2",
+    "mongodb"
+  ],
+  "author": "Zhang Kai Yu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhangkaiyulw/koa2-mongoose/issues"
+  },
+  "peerDependencies": {
+    "mongoose": "5.x"
+  },
+  "homepage": "https://github.com/zhangkaiyulw/koa2-mongoose#readme",
+  "dependencies": {
+    "glob": "^7.1.2"
+  }
+}
