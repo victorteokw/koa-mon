@@ -51,7 +51,9 @@ module.exports = function({url, options, models, debug}) {
   });
 
   const connect = function() {
-    return mongoose.connect(url, options);
+    return mongoose.connect(url, options).catch((err) => {
+
+    });
   };
 
   connectionPromise = connect();
