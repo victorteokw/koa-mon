@@ -27,7 +27,7 @@ module.exports = function({url, options, models, debug}) {
     if (closed) return;
     mongoose.connection.close(function () {
       closed = true;
-      console.log(`${timestamp}[koa2-mongoose] close connection to ${url}.`);
+      console.log(`${timestamp()}[koa2-mongoose] close connection to ${url}.`);
     });
   };
 
@@ -38,7 +38,7 @@ module.exports = function({url, options, models, debug}) {
 
   mongoose.connection.on('error', () => {
     connected = false;
-    console.log(`${timestamp}[koa2-mongoose] error connecting to ${url}.`);
+    console.log(`${timestamp()}[koa2-mongoose] error connecting to ${url}.`);
     if (options.autoReconnect !== false) {
       if (reconnectTries < (options.reconnectTries || defaultOptions.reconnectTries)) {
         setTimeout(() => {
@@ -50,16 +50,16 @@ module.exports = function({url, options, models, debug}) {
   });
   mongoose.connection.on('disconnected', function () {
     connected = false;
-    console.log(`${timestamp}[koa2-mongoose] connection to ${url} disconnected.`);
+    console.log(`${timestamp()}[koa2-mongoose] connection to ${url} disconnected.`);
   });
   mongoose.connection.on('connected', function () {
     connected = true;
     reconnectTries = 0;
-    console.log(`${timestamp}[koa2-mongoose] connection to ${url} connected.`);
+    console.log(`${timestamp()}[koa2-mongoose] connection to ${url} connected.`);
   });
 
   const connect = function() {
-    console.log(`${timestamp}[koa2-mongoose] connecting ${url}.`);
+    console.log(`${timestamp()}[koa2-mongoose] connecting ${url}.`);
     const p = mongoose.connect(url, options);
     p.catch((err) => {});
     return p;
