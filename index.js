@@ -3,7 +3,11 @@ const glob = require('glob');
 
 const timestamp = function() {
   const stamp = new Date().toISOString().replace('T', ' ').substr(0, 19);
-  return `[${stamp}] `;
+  return `[${stamp}]`;
+}
+
+const log = function(s) {
+  console.log(`${timestamp()}[KOAMON] ${s}`);
 }
 
 module.exports = function({url, options, models, debug}) {
@@ -27,7 +31,7 @@ module.exports = function({url, options, models, debug}) {
     if (closed) return;
     mongoose.connection.close(function () {
       closed = true;
-      console.log(`${timestamp()}[koa2-mongoose] close connection to ${url}.`);
+      log(`close connection to ${url}`);
     });
   };
 
@@ -38,7 +42,7 @@ module.exports = function({url, options, models, debug}) {
 
   mongoose.connection.on('error', () => {
     connected = false;
-    console.log(`${timestamp()}[koa2-mongoose] error connecting to ${url}.`);
+    log(`error connecting ${url}`);
     if (options.autoReconnect !== false) {
       if (reconnectTries < (options.reconnectTries || defaultOptions.reconnectTries)) {
         setTimeout(() => {
@@ -50,16 +54,16 @@ module.exports = function({url, options, models, debug}) {
   });
   mongoose.connection.on('disconnected', function () {
     connected = false;
-    console.log(`${timestamp()}[koa2-mongoose] connection to ${url} disconnected.`);
+    log(`${url} disconnected`);
   });
   mongoose.connection.on('connected', function () {
     connected = true;
     reconnectTries = 0;
-    console.log(`${timestamp()}[koa2-mongoose] connection to ${url} connected.`);
+    log(`${url} connected`);
   });
 
   const connect = function() {
-    console.log(`${timestamp()}[koa2-mongoose] connecting ${url}.`);
+    log(`connecting ${url}`);
     const p = mongoose.connect(url, options);
     p.catch((err) => {});
     return p;
