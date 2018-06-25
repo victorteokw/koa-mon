@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const glob = require('glob');
+const chalk = require('chalk');
 
 const timestamp = function() {
   const stamp = new Date().toISOString().replace('T', ' ').substr(0, 19);
@@ -7,7 +8,7 @@ const timestamp = function() {
 }
 
 const log = function(s) {
-  console.log(`${timestamp()}[KOAMON] ${s}`);
+  console.log(`${chalk.blue(timestamp())}${chalk.magenta.bold('[DB]')} ${s}`);
 }
 
 module.exports = function({url, options, models, debug}) {
@@ -42,7 +43,7 @@ module.exports = function({url, options, models, debug}) {
 
   mongoose.connection.on('error', () => {
     connected = false;
-    log(`error connecting ${url}`);
+    log(`Error Occurred.`);
     if (options.autoReconnect !== false) {
       if (reconnectTries < (options.reconnectTries || defaultOptions.reconnectTries)) {
         setTimeout(() => {
@@ -54,16 +55,16 @@ module.exports = function({url, options, models, debug}) {
   });
   mongoose.connection.on('disconnected', function () {
     connected = false;
-    log(`${url} disconnected`);
+    log(`Disconnected.`);
   });
   mongoose.connection.on('connected', function () {
     connected = true;
     reconnectTries = 0;
-    log(`${url} connected`);
+    log(`Connected.`);
   });
 
   const connect = function() {
-    log(`connecting ${url}`);
+    log(`Connecting...`);
     const p = mongoose.connect(url, options);
     p.catch((err) => {});
     return p;

@@ -1,14 +1,14 @@
 {
-  "name": "koa2-mongoose",
-  "version": "0.1.1",
-  "description": "koa2 mongoose middleware",
+  "name": "koa-mon",
+  "version": "0.2.0",
+  "description": "koa mongoose middleware",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zhangkaiyulw/koa2-mongoose.git"
+    "url": "git+https://github.com/zhangkaiyulw/koa-mon.git"
   },
   "keywords": [
     "koa",
@@ -21,10 +21,11 @@
   "author": "Zhang Kai Yu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zhangkaiyulw/koa2-mongoose/issues"
+    "url": "https://github.com/zhangkaiyulw/koa-mon/issues"
   },
-  "homepage": "https://github.com/zhangkaiyulw/koa2-mongoose#readme",
+  "homepage": "https://github.com/zhangkaiyulw/koa-mon#readme",
   "dependencies": {
+    "chalk": "^2.4.1",
     "glob": "^7.1.2"
   },
   "peerDependencies": {
