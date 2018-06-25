@@ -13,7 +13,7 @@ const log = function(s) {
 
 module.exports = function({url, options, models, debug}) {
 
-  console.log(`Using ${url}.`);
+  log(`Using ${url}.`);
 
   const defaultOptions = {
     autoReconnect: true,
