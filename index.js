@@ -13,6 +13,8 @@ const log = function(s) {
 
 module.exports = function({url, options, models, debug}) {
 
+  console.log(`Using ${url}.`);
+
   const defaultOptions = {
     autoReconnect: true,
     reconnectTries: Number.MAX_VALUE,
