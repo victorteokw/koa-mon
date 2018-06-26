@@ -1,6 +1,6 @@
 {
   "name": "koa-mon",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "koa mongoose middleware",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,8 @@
   "homepage": "https://github.com/zhangkaiyulw/koa-mon#readme",
   "dependencies": {
     "chalk": "^2.4.1",
-    "glob": "^7.1.2"
+    "glob": "^7.1.2",
+    "semaphore-async-await": "^1.5.1"
   },
   "peerDependencies": {
     "mongoose": "5.x"
