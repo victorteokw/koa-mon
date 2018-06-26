@@ -4,8 +4,17 @@ const chalk = require('chalk');
 const Semaphore = require('semaphore-async-await').default;
 
 const timestamp = function() {
-  const stamp = new Date().toISOString().replace('T', ' ').substr(0, 19);
-  return `[${stamp}]`;
+  const time = new Date();
+  const dateStr = time.toLocaleDateString('en', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  const timeStr = time.toLocaleTimeString('en', {
+    hour12: false,
+    timeZoneName: 'short'
+  });
+  return `[${dateStr} ${timeStr}]`;
 };
 
 const log = function(s) {
