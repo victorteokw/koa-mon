@@ -7,6 +7,7 @@ koa-mon is a koa middleware for working with mongoose. Features including
 2. Handles mongoose connection including auto reconnects
 3. Passing mongoose and models to koa context
 4. Handles multiple mongoose connections
+5. Nice database connection status logging with local timestamps
 
 ## Installation
 
@@ -16,30 +17,67 @@ npm install koa-mon --save
 
 ## Usage
 
+### Single connection
+
+For single connection, don't need to specify `connectionName`. By default,
+mongoose's default connection is used. You can export your compiled models
+directly.
+
 ``` js
 const mongoose = require('koa-mon');
 
-// Simplest Usage
 app.use(mongoose({
   modelDir: __dirname + '/models', // Where you models are defined
-  url: config.database.url // Mongoose connect url
+  url: 'mongodb://127.0.0.1:27017/your-db', // Mongoose connect url
+  options: {}, // Mongoose connect options, omit this if it's just empty,
+  debug: false // Should mongoose output debug messages, omit if false
 }));
+```
 
-// Advanced Usage
+### Multiple connections
+
+For multiple connections, you need to specify `connectionName` explicitly.
+In your model definitions, you need to name it like `'User.js'` and export a
+schema. Koa-mon handles the relationship between model and connections for you.
+
+``` js
+const mongoose = require('koa-mon');
+
 app.use(mongoose({
-  modelDir: __dirname + '/models', // Where you models are defined
-  url: config.database.url, // Mongoose connect url
-  options: {}, // Mongoose connect options
-  lazyConnect: true, // This will defer connecting to first request
-  connectionName: 'connection1', // This is for multiple connections
-  debug: config.database.debug // Mongoose debug option
+  modelDir: __dirname + '/models1',
+  url: 'mongodb://127.0.0.1:27017/db1',
+  connectionName: 'db1'
 }));
 
+app.use(mongoose({
+  modelDir: __dirname + '/models2',
+  url: 'mongodb://127.0.0.1:27017/db2',
+  connectionName: 'db2'
+}));
+```
+
+To retrive your models:
+
+``` js
 app.use((ctx, next) => {
-  // Now get models from ctx
   const mongoose = ctx.mongoose;
-  const { User } = ctx.models;
-  const connections = ctx.connections;
+  const { User1 } = ctx.db1;
+  const { User2 } = ctx.db2;
+  const { User1 } = ctx.connections.db1.models;
+  const { User2 } = ctx.connections.db2.models;
+});
+```
+
+To define your model:
+``` js
+// Post.js
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+// You need to export the schema, do not use mongoose.model('Post', postSchema)
+module.exports = new Schema({
+  title: String,
+  content: String
 });
 ```
 
