@@ -1,4 +1,5 @@
 # koa-mon
+[![NPM version][npm-image]][npm-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
 koa-mon is a koa middleware for working with mongoose. Features including
 
@@ -31,3 +32,9 @@ app.use((ctx, next) => {
   const { User } = ctx.models;
 });
 ```
+
+
+[npm-image]: https://badge.fury.io/js/koa-mon.svg
+[npm-url]: https://npmjs.org/package/koa-mon
+[daviddm-image]: https://david-dm.org/zhangkaiyulw/koa-mon.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/zhangkaiyulw/koa-mon
