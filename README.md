@@ -6,7 +6,8 @@ koa-mon is a koa middleware for working with mongoose. Features including
 1. Handles model loading
 2. Handles mongoose connection including auto reconnects
 3. Passing mongoose and models to koa context
-4.
+4. Handles multiple mongoose connections
+
 ## Installation
 
 ``` bash
@@ -38,6 +39,7 @@ app.use((ctx, next) => {
   // Now get models from ctx
   const mongoose = ctx.mongoose;
   const { User } = ctx.models;
+  const connections = ctx.connections;
 });
 ```
 
