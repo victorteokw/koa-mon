@@ -22,8 +22,9 @@ const timestamp = function() {
   return `[${dateStr} ${timeStr}]`;
 };
 
-const log = function(s) {
-  console.log(`${chalk.blue(timestamp())}${chalk.magenta.bold('[DB]')} ${s}`);
+const log = function(s, connectionName) {
+  console.log(`${chalk.blue(timestamp())}\
+${chalk.magenta.bold(connectionName ? `[${connectionName}]` : '[DB]')} ${s}`);
 };
 
 module.exports = function({
@@ -40,15 +41,15 @@ module.exports = function({
     reconnectInterval: 2000
   };
 
-  let connection = undefined, 
+  let connection = undefined,
     connected = false,
     reconnectTries = 0,
     eventsAttached = false;
   const models = {};
 
   const connect = function(url, options) {
-    log(`Using ${url}.`);
-    log(`Connecting...`);
+    log(`Using ${url}.`, connectionName);
+    log(`Connecting...`, connectionName);
     if (connectionName) {
       connection = mongoose.createConnection(url, options);
     } else {
@@ -58,7 +59,7 @@ module.exports = function({
     if (!eventsAttached) {
       connection.on('error', () => {
         connected = false;
-        log(`Error Occurred.`);
+        log(`Error Occurred.`, connectionName);
         if (options.autoReconnect !== false) {
           if (reconnectTries <
             (options.reconnectTries || defaultOptions.reconnectTries)) {
@@ -72,13 +73,13 @@ module.exports = function({
 
       connection.on('disconnected', function () {
         connected = false;
-        log(`Disconnected.`);
+        log(`Disconnected.`, connectionName);
       });
 
       connection.on('connected', function () {
         connected = true;
         reconnectTries = 0;
-        log(`Connected.`);
+        log(`Connected.`, connectionName);
         unlock();
       });
 
