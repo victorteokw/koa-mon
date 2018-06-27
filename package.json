@@ -30,5 +30,8 @@
   },
   "peerDependencies": {
     "mongoose": "5.x"
+  },
+  "devDependencies": {
+    "eslint": "^5.0.1"
   }
 }
