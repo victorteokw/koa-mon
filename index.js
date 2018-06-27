@@ -40,7 +40,7 @@ const connect = function(url, options) {
   mongoose.connect(url, options).catch((err) => {});
 };
 
-module.exports = function({url, options, models, debug}) {
+module.exports = function({url, options, models, debug, lazyConnect}) {
 
   log(`Using ${url}.`);
 
@@ -85,7 +85,9 @@ module.exports = function({url, options, models, debug}) {
     unlock();
   });
 
-  connect(url, options);
+  if (!lazyConnect) {
+    connect(url, options);
+  }
 
   // Middleware setup
   return async function(ctx, next) {
@@ -93,6 +95,10 @@ module.exports = function({url, options, models, debug}) {
     ctx.models = ctx.mongoose.models;
     if (!connected) {
       await lock();
+      if (lazyConnect) {
+        connect(url, options);
+        lazyConnect = false;
+      }
     }
     await next();
   };
