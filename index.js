@@ -1,7 +1,21 @@
 const mongoose = require('mongoose');
 const glob = require('glob');
 const chalk = require('chalk');
-const Semaphore = require('semaphore-async-await').default;
+
+const locks = [];
+
+const lock = () => {
+  return new Promise(function(res, rej) {
+    locks.push(res);
+  });
+};
+
+const unlock = () => {
+  while (locks.length) {
+    const res = locks.pop();
+    res();
+  }
+};
 
 const timestamp = function() {
   const time = new Date();
@@ -46,10 +60,6 @@ module.exports = function({url, options, models, debug}) {
 
   let connected = false, reconnectTries = 0;
 
-  const savedRequests = [];
-  const lock = new Semaphore(1);
-  lock.wait();
-
   mongoose.connection.on('error', () => {
     connected = false;
     log(`Error Occurred.`);
@@ -69,10 +79,10 @@ module.exports = function({url, options, models, debug}) {
   });
 
   mongoose.connection.on('connected', function () {
-    lock.signal();
     connected = true;
     reconnectTries = 0;
     log(`Connected.`);
+    unlock();
   });
 
   connect(url, options);
@@ -82,7 +92,7 @@ module.exports = function({url, options, models, debug}) {
     ctx.mongoose = mongoose;
     ctx.models = ctx.mongoose.models;
     if (!connected) {
-      await lock.wait();
+      await lock();
     }
     await next();
   };
