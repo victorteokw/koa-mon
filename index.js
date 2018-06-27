@@ -94,11 +94,11 @@ module.exports = function({url, options, models, debug, lazyConnect}) {
     ctx.mongoose = mongoose;
     ctx.models = ctx.mongoose.models;
     if (!connected) {
-      await lock();
       if (lazyConnect) {
         connect(url, options);
         lazyConnect = false;
       }
+      await lock();
     }
     await next();
   };
