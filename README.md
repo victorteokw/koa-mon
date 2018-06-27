@@ -6,7 +6,7 @@ koa-mon is a koa middleware for working with mongoose. Features including
 1. Handles model loading
 2. Handles mongoose connection including auto reconnects
 3. Passing mongoose and models to koa context
-
+4.
 ## Installation
 
 ``` bash
@@ -18,12 +18,20 @@ npm install koa-mon --save
 ``` js
 const mongoose = require('koa-mon');
 
+// Simplest Usage
 app.use(mongoose({
-  models: __dirname + '/models', // Where you models are defined
-  debug: config.database.debug, // Mongoose debug option
+  modelDir: __dirname + '/models', // Where you models are defined
+  url: config.database.url // Mongoose connect url
+}));
+
+// Advanced Usage
+app.use(mongoose({
+  modelDir: __dirname + '/models', // Where you models are defined
   url: config.database.url, // Mongoose connect url
   options: {}, // Mongoose connect options
-  lazyConnect: true // This will defer connecting to first request
+  lazyConnect: true, // This will defer connecting to first request
+  connectionName: 'connection1', // This is for multiple connections
+  debug: config.database.debug // Mongoose debug option
 }));
 
 app.use((ctx, next) => {
