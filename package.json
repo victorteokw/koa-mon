@@ -32,6 +32,7 @@
     "mongoose": "5.x"
   },
   "devDependencies": {
-    "eslint": "^5.0.1"
+    "eslint": "^5.0.1",
+    "eslint-config-man": "^1.0.0"
   }
 }
