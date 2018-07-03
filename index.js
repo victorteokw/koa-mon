@@ -40,6 +40,8 @@ module.exports = function({
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 2000
   };
+  
+  options = Object.assign({}, defaultOptions, options);
 
   let connection = undefined,
     connected = false,
