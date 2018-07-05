@@ -87,7 +87,9 @@ module.exports = function({
 
       // Load plugins
       if (plugins && Array.isArray(plugins)) {
-        plugins.forEach(mongoose.plugin);
+        plugins.forEach((plugin) => {
+          mongoose.plugin(plugin);
+        });
       }
 
       // Load models
