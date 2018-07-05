@@ -8,6 +8,7 @@ koa-mon is a koa middleware for working with mongoose. Features including
 3. Passing mongoose and models to koa context
 4. Handles multiple mongoose connections
 5. Nice database connection status logging with local timestamps
+6. Load mongoose global plugins
 
 ## Installation
 

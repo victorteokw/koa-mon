@@ -28,7 +28,7 @@ ${chalk.magenta.bold(connectionName ? `[${connectionName}]` : '[DB]')} ${s}`);
 };
 
 module.exports = function({
-  url, options, modelDir, debug, lazyConnect, connectionName
+  url, options, modelDir, debug, lazyConnect, connectionName, plugins
 }) {
 
   // configure mongoose
@@ -40,7 +40,7 @@ module.exports = function({
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 2000
   };
-  
+
   options = Object.assign({}, defaultOptions, options);
 
   let connection = undefined,
@@ -85,10 +85,15 @@ module.exports = function({
         unlock();
       });
 
+      // Load plugins
+      if (plugins && Array.isArray(plugins)) {
+        plugins.forEach(mongoose.plugin);
+      }
+
       // Load models
       const modelPaths = glob.sync(modelDir + '/**/*.js');
       const modelObjects = modelPaths.map(require);
-      modelObjects.map((o, i) => {
+      modelObjects.forEach((o, i) => {
         const name = path.parse(modelPaths[i]).name;
         if ((o.constructor === mongoose.Schema) && isCapitalized(name)) {
           models[name] = connection.model(name, o);
