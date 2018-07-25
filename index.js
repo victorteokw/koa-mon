@@ -28,7 +28,7 @@ ${chalk.magenta.bold(connectionName ? `[${connectionName}]` : '[DB]')} ${s}`);
 };
 
 module.exports = function({
-  url, options, modelDir, debug, lazyConnect, connectionName, plugins
+  url, options, modelDir, debug, lazyConnect, connectionName, plugins, types
 }) {
 
   // configure mongoose
@@ -89,6 +89,13 @@ module.exports = function({
       if (plugins && Array.isArray(plugins)) {
         plugins.forEach((plugin) => {
           mongoose.plugin(plugin);
+        });
+      }
+
+      // Load types
+      if (types && Array.isArray(types)) {
+        types.forEach((type) => {
+          type(mongoose);
         });
       }
 
