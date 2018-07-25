@@ -107,11 +107,10 @@ module.exports = function({
 
   const locks = [];
 
-  const lock = () => {
-    return new Promise(function(res, rej) {
+  const lock = () =>
+    new Promise(function(res, _rej) {
       locks.push(res);
     });
-  };
 
   const unlock = () => {
     while (locks.length) {
