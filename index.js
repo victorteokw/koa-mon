@@ -50,6 +50,7 @@ module.exports = function({
   const models = {};
 
   const connect = function(url, options) {
+    options.useNewUrlParser = true; // fix warning
     log(`Using ${url}.`, connectionName);
     log(`Connecting...`, connectionName);
     if (connectionName) {
